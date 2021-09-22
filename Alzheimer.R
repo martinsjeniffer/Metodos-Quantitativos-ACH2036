@@ -1,6 +1,8 @@
 #install.packages("dplyr")
 #install.packages('plyr')
 #install.packages('car')
+# install.packages("cowplot")
+library(cowplot)
 #install.packages("corrplot")
 #install.packages("caret")
 #install.packages("caretEnsemble")
@@ -98,6 +100,8 @@ desvio_padrao_lista_valores_atributo <- sd(lista_de_valores_do_atributo)
 
 windows.options(width=10, height=20)
 plot(seq(min_lista_valores_atributo,max_lista_valores_atributo,0.01), pnorm(seq(min_lista_valores_atributo,max_lista_valores_atributo,0.01), media_lista_valores_atributo, desvio_padrao_lista_valores_atributo, lower.tail = TRUE, log.p = FALSE),ylab = "probability", xlab = "mm", type = "l", lwd=2)
+
+plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valores_atributo)), aes(x)) + stat_function(fun = pnorm, n = 101, args = list(mean = media_lista_valores_atributo, sd = desvio_padrao_lista_valores_atributo)) + ylab("aaa") + xlab("fwefew"))
 
 #############################################################################
 #############################################################################
