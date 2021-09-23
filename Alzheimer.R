@@ -127,27 +127,34 @@ boxplot(non_demented_df$eTIV)
 ################## Plotagem de grafico para Lillie Test #####################
 
 lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
+lista_de_valores_do_atributo <- sort(demented_and_converted_df$eTIV)
 min_lista_valores_atributo <- min(unlist(lista_de_valores_do_atributo))
 max_lista_valores_atributo <- max(unlist(lista_de_valores_do_atributo))
 media_lista_valores_atributo <- mean(lista_de_valores_do_atributo)
 desvio_padrao_lista_valores_atributo <- sd(lista_de_valores_do_atributo)
 
 
+#plotagem de curva normal de gauss com media e desvio padrao fornecidos sem utilizar ggplot
 plot(seq(min_lista_valores_atributo,max_lista_valores_atributo,0.01), pnorm(seq(min_lista_valores_atributo,max_lista_valores_atributo,0.01), media_lista_valores_atributo, desvio_padrao_lista_valores_atributo, lower.tail = TRUE, log.p = FALSE),ylab = "probability", xlab = "mm", type = "l", lwd=2)
-
+#plotagem de curva normal de gauss com media e desvio padrao fornecidos utilizando ggplot
 plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valores_atributo)), aes(x)) + stat_function(fun = pnorm, n = 101, args = list(mean = media_lista_valores_atributo, sd = desvio_padrao_lista_valores_atributo)) + ylab("aaa") + xlab("fwefew"))
 
-#############################################################################
-#############################################################################
-
 # vetor teste
-teste <- c(1,4,7,2,7,2,8,45,67,8,2,2,75,2,7,2,2)
+vetor <- lista_de_valores_do_atributo
 # vetor soma acumulada
-print(cumsum(teste))
+soma_acumulada = cumsum(vetor)
 # frequencias relativas
-print(prop.table(teste))
+freq_relativas = prop.table(vetor)
 # frequencia acumulada
-print(cumsum(table(teste)))
+freq_relativas_acumuladas = cumsum(freq_relativas)
 
-plot()
+#plotagem da curva normal junto com a frequencia relativa acumulada.
+plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valores_atributo)), aes(x))
+     + stat_function(fun = pnorm, n = 101, args = list(mean = media_lista_valores_atributo, sd = desvio_padrao_lista_valores_atributo), linetype="longdash")
+     + ylab("aaa")
+     + xlab("fwefew")
+     + geom_step(data = data.frame(x = lista_de_valores_do_atributo), aes(x=x, y=freq_relativas_acumuladas), color="blue"))
 
+
+#############################################################################
+#############################################################################
