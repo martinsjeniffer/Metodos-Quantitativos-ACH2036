@@ -20,8 +20,9 @@ library(ggplot2)
 #library(randomForest)
 #library(xgboost)
 
-df <- read.csv('oasis_longitudinal.csv')
-head(df)
+
+dataset_escolhido <- read.csv('oasis_longitudinal.csv')
+head(dataset_escolhido)
 #df
 
 # dim(df)
@@ -31,31 +32,31 @@ head(df)
 # summary(df)
 
 #Drop hand
-table(df$Hand)
-df$Hand<-NULL
+table(dataset_escolhido$Hand)
+dataset_escolhido$Hand<-NULL
 
 #Drop Ids
-subject_id<-df$Subject.ID
-MRI_id<-df$MRI.ID
+subject_id<-dataset_escolhido$Subject.ID
+MRI_id<-dataset_escolhido$MRI.ID
 
-df$Subject.ID<-NULL
-df$MRI.ID<-NULL
+dataset_escolhido$Subject.ID<-NULL
+dataset_escolhido$MRI.ID<-NULL
 
-sort(apply(df, 2, function(x){sum(is.na(x))}), decreasing = TRUE)
+sort(apply(dataset_escolhido, 2, function(x){sum(is.na(x))}), decreasing = TRUE)
 
-table(df$SES)
+table(dataset_escolhido$SES)
 
-df <- df[order(df$Group),]
-head(df)
+dataset_escolhido <- dataset_escolhido[order(dataset_escolhido$Group),]
+head(dataset_escolhido)
 #df %>% group_by(MMSE) %>% arrange(Group) 
-count(df, 'Group')
+count(dataset_escolhido, 'Group')
 
 ###############################################################
 ############## DATAFRAMES SEPARADOS EM GRUPOS #################
 ###############################################################
 
-demented_and_converted_df <- df[order(df$Group),][c(0:183),c(1,10,11,12)]
-non_demented_df <- df[order(df$Group),][c(184:373),c(1,10,11,12)]
+demented_and_converted_df <- dataset_escolhido[order(dataset_escolhido$Group),][c(0:183),c(1,10,11,12)]
+non_demented_df <- dataset_escolhido[order(dataset_escolhido$Group),][c(184:373),c(1,10,11,12)]
 
 ###############################################################
 ##################### SHAPIRO TESTE ###########################
@@ -93,7 +94,7 @@ lillie.test(non_demented_df$ASF)
 lillie.test(demented_and_converted_df$nWBV)
 lillie.test(non_demented_df$nWBV)
 
-lillie.test(demented_and_converted_df$eTIV)
+print(lillie.test(demented_and_converted_df$eTIV))
 lillie.test(non_demented_df$eTIV)
 
 ################################################################
@@ -126,8 +127,9 @@ boxplot(non_demented_df$eTIV)
 ########################## Editado por Fabricio #############################
 ################## Plotagem de grafico para Lillie Test #####################
 
-lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
-lista_de_valores_do_atributo <- sort(demented_and_converted_df$eTIV)
+# EXEMPLO DE VETOR UTILIZADO PARA TESTE lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
+lista_de_valores_do_atributo <- demented_and_converted_df$eTIV
+lista_de_valores_do_atributo <- sort(lista_de_valores_do_atributo)
 min_lista_valores_atributo <- min(unlist(lista_de_valores_do_atributo))
 max_lista_valores_atributo <- max(unlist(lista_de_valores_do_atributo))
 media_lista_valores_atributo <- mean(lista_de_valores_do_atributo)
