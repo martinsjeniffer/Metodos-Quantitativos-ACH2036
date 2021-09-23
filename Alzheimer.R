@@ -94,7 +94,7 @@ lillie.test(non_demented_df$ASF)
 lillie.test(demented_and_converted_df$nWBV)
 lillie.test(non_demented_df$nWBV)
 
-print(lillie.test(demented_and_converted_df$eTIV))
+lillie.test(demented_and_converted_df$eTIV)
 lillie.test(non_demented_df$eTIV)
 
 ################################################################
@@ -127,7 +127,7 @@ boxplot(non_demented_df$eTIV)
 ########################## Editado por Fabricio #############################
 ################## Plotagem de grafico para Lillie Test #####################
 
-# EXEMPLO DE VETOR UTILIZADO PARA TESTE lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
+lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
 lista_de_valores_do_atributo <- demented_and_converted_df$eTIV
 lista_de_valores_do_atributo <- sort(lista_de_valores_do_atributo)
 min_lista_valores_atributo <- min(unlist(lista_de_valores_do_atributo))
@@ -144,19 +144,24 @@ plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valo
 # vetor teste
 vetor <- lista_de_valores_do_atributo
 # vetor soma acumulada
-soma_acumulada = cumsum(vetor)
+soma_acumulada <- cumsum(vetor)
 # frequencias relativas
-freq_relativas = prop.table(vetor)
+freq_relativas <- as.vector(table(vetor)/length(vetor))
 # frequencia acumulada
-freq_relativas_acumuladas = cumsum(freq_relativas)
+freq_relativas_acumuladas <- cumsum(freq_relativas)
+# retira os valores repetidos
+lista_de_valores_do_atributo <- unique(lista_de_valores_do_atributo)
 
 #plotagem da curva normal junto com a frequencia relativa acumulada.
 plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valores_atributo)), aes(x))
      + stat_function(fun = pnorm, n = 101, args = list(mean = media_lista_valores_atributo, sd = desvio_padrao_lista_valores_atributo), linetype="longdash")
      + ylab("aaa")
      + xlab("fwefew")
-     + geom_step(data = data.frame(x = lista_de_valores_do_atributo), aes(x=x, y=freq_relativas_acumuladas), color="blue"))
-
+     + geom_step(data = data.frame(x = lista_de_valores_do_atributo[1:length(freq_relativas_acumuladas)]), aes(x=x, y=freq_relativas_acumuladas), color="blue"))
+ 
 
 #############################################################################
 #############################################################################
+
+funcao_criada <- as.function(alist(x=, pnorm(x - media_lista_valores_atributo)))
+
