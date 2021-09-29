@@ -65,8 +65,8 @@ non_demented_df <- dataset_escolhido[order(dataset_escolhido$Group),][c(184:373)
 shapiro.test(demented_and_converted_df$ASF)
 shapiro.test(non_demented_df$ASF)
 
-shapiro.test(demented_and_converted_df$nWBV)
-shapiro.test(non_demented_df$nWBV)
+print(shapiro.test(demented_and_converted_df$nWBV))
+print(shapiro.test(non_demented_df$nWBV))
 
 shapiro.test(demented_and_converted_df$eTIV)
 shapiro.test(non_demented_df$eTIV)
@@ -91,8 +91,8 @@ hist(non_demented_df$eTIV)
 lillie.test(demented_and_converted_df$ASF)
 lillie.test(non_demented_df$ASF)
 
-lillie.test(demented_and_converted_df$nWBV)
-lillie.test(non_demented_df$nWBV)
+print(lillie.test(log(demented_and_converted_df$nWBV)))
+print(lillie.test(log(non_demented_df$nWBV)))
 
 lillie.test(demented_and_converted_df$eTIV)
 lillie.test(non_demented_df$eTIV)
@@ -128,7 +128,7 @@ boxplot(non_demented_df$eTIV)
 ################## Plotagem de grafico para Lillie Test #####################
 
 lista_de_valores_do_atributo <- c(93.45, 94.46, 94.93, 96.17, 96.74, 97.07, 97.68, 97.93, 99.1, 99.3, 100.73, 103.29, 103.6, 103.83, 105.2)
-lista_de_valores_do_atributo <- demented_and_converted_df$eTIV
+lista_de_valores_do_atributo <- log(non_demented_df$nWBV)
 lista_de_valores_do_atributo <- sort(lista_de_valores_do_atributo)
 min_lista_valores_atributo <- min(unlist(lista_de_valores_do_atributo))
 max_lista_valores_atributo <- max(unlist(lista_de_valores_do_atributo))
@@ -155,8 +155,8 @@ lista_de_valores_do_atributo <- unique(lista_de_valores_do_atributo)
 #plotagem da curva normal junto com a frequencia relativa acumulada.
 plot(ggplot(data = data.frame(x = seq(min_lista_valores_atributo, max_lista_valores_atributo)), aes(x))
      + stat_function(fun = pnorm, n = 101, args = list(mean = media_lista_valores_atributo, sd = desvio_padrao_lista_valores_atributo), linetype="longdash")
-     + ylab("aaa")
-     + xlab("fwefew")
+     + ylab("Distribuição acumulada")
+     + xlab("log(Valor da variável)")
      + geom_step(data = data.frame(x = lista_de_valores_do_atributo[1:length(freq_relativas_acumuladas)]), aes(x=x, y=freq_relativas_acumuladas), color="blue"))
  
 
