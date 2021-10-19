@@ -5,6 +5,12 @@ library(ggplot2)
 dataset_mortalidade <- read.csv('mortality.csv')
 summary(dataset_mortalidade)
 
+# - Hematocrit (Percentagem de volume ocupado pelas hemáceas no volume total de sangue)
+# - Chloride (Taxa de Cloreto no sangue)
+# - Bicarbonate (Taxa de Bicarbonato no sangue)
+# - RBC (Número de Hemáceas)
+# - RDW (Score da distribuição da largura da Hemácea)
+# - Creatinine (Creatinina Fosforilada)
 
 print("---------------------------------------------------------------")
 print("-               REGRESSAO LINEAR SIMPLES                      -")
